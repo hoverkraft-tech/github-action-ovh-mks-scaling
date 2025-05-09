@@ -1,0 +1,34 @@
+name: 'OVH MKS Scaling'
+author: hoverkraft-tech
+description: 'Scale up or down your OVH MKS nodepool'
+branding:
+  icon: align-left
+  color: blue
+inputs:
+  endpoint:
+    required: true
+    description: 'The OVH endpoint to use'
+    default: 'eu.api.ovh.com'
+  region:
+    required: true
+    description: 'The OVH region to use'
+    default: 'GRA'
+  project_id:
+    required: true
+    description: 'The project ID of the OVH MKS project'
+  cluster_id:
+    required: true
+    description: 'The ID of the OVH MKS cluster'
+  nodepool_id:
+    required: true
+    description: 'The ID of the OVH MKS nodepool'
+  number_of_nodes:
+    required: true
+    description: 'The number of nodes to scale to'
+    default: '1'
+outputs:
+  response:
+    description: 'The response of the server'
+runs:
+  using: 'node22'
+  main: 'index.js'

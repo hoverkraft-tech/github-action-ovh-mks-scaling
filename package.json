@@ -1,0 +1,29 @@
+{
+  "name": "github-action-ovh-mks-scaling",
+  "version": "1.0.0",
+  "description": "Scale up or down your OVH MKS nodepool",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hoverkraft-tech/github-action-ovh-mks-scaling.git"
+  },
+  "keywords": [
+    "OVH",
+    "MKS",
+    "github-actions"
+  ],
+  "author": "hoverkraft-tech",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/hoverkraft-tech/github-action-ovh-mks-scaling/issues"
+  },
+  "homepage": "https://github.com/hoverkraft-tech/github-action-ovh-mks-scaling#readme",
+  "dependencies": {
+    "@actions/core": "^1.11.1",
+    "@actions/github": "^6.0.1",
+    "ovh": "^2.0.3"
+  }
+}
