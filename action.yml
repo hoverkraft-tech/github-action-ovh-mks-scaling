@@ -9,10 +9,6 @@ inputs:
     required: true
     description: 'The OVH endpoint to use'
     default: 'eu.api.ovh.com'
-  region:
-    required: true
-    description: 'The OVH region to use'
-    default: 'GRA'
   project_id:
     required: true
     description: 'The project ID of the OVH MKS project'

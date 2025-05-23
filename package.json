@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Scale up or down your OVH MKS nodepool",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
