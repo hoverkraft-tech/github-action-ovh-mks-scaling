@@ -8,7 +8,7 @@ inputs:
   endpoint:
     required: true
     description: 'The OVH endpoint to use'
-    default: 'eu.api.ovh.com'
+    default: 'ovh-eu'
   project_id:
     required: true
     description: 'The project ID of the OVH MKS project'
