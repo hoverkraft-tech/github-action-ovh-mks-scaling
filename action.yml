@@ -26,5 +26,5 @@ outputs:
   response:
     description: 'The response of the server'
 runs:
-  using: 'node22'
+  using: 'node20'
   main: 'index.js'
