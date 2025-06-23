@@ -1,30 +1,58 @@
-name: 'OVH MKS Scaling'
-author: hoverkraft-tech
-description: 'Scale up or down your OVH MKS nodepool'
+name: "OVH MKS Scaling"
+author: hoverkraft
+description: |
+  Scale up or down your OVH MKS nodepool.
+  Rely on the OVH API through the [OVH NodeJS SDK](https://github.com/ovh/node-ovh) to manage your Kubernetes clusters.
+  It allows you to scale the number of nodes in a specific nodepool of an OVH Managed Kubernetes Service (MKS) cluster.
+  This action supports both Application Key/Application Secret and OAuth2 authentication methods.
 branding:
   icon: align-left
   color: blue
 inputs:
   endpoint:
+    required: false
+    description: |
+      The OVH endpoint to use.
+      See the [available endpoints](https://github.com/ovh/node-ovh/blob/master/lib/endpoints.js) list.
+
+  # Authentication - Application Key/ApplicationSecret
+  application-key:
+    required: false
+    description: "The OVH application key"
+  application-secret:
+    required: false
+    description: "The OVH application secret"
+  consumer-key:
+    required: false
+    description: "The OVH consumer key"
+
+  # Authentication - OAuth2
+  client-id:
+    required: false
+    description: "The OAuth2 client ID"
+  client-secret:
+    required: false
+    description: "The OAuth2 client secret"
+
+  # Scaling parameters
+  project-id:
     required: true
-    description: 'The OVH endpoint to use'
-    default: 'ovh-eu'
-  project_id:
+    description: "The project ID of the OVH MKS project"
+  cluster-id:
     required: true
-    description: 'The project ID of the OVH MKS project'
-  cluster_id:
+    description: "The ID of the OVH MKS cluster"
+  nodepool-id:
     required: true
-    description: 'The ID of the OVH MKS cluster'
-  nodepool_id:
+    description: "The ID of the OVH MKS nodepool"
+  number-of-nodes:
     required: true
-    description: 'The ID of the OVH MKS nodepool'
-  number_of_nodes:
-    required: true
-    description: 'The number of nodes to scale to'
-    default: '1'
+    description: "The number of nodes to scale to"
+    default: "1"
+
 outputs:
   response:
-    description: 'The response of the server'
+    description: "The response of the server"
+
 runs:
-  using: 'node20'
-  main: 'index.js'
+  using: "node20"
+  main: "dist/index.js"
