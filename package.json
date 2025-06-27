@@ -1,30 +1,122 @@
 {
   "name": "github-action-ovh-mks-scaling",
-  "version": "1.0.0",
   "description": "Scale up or down your OVH MKS nodepool",
-  "main": "index.js",
-  "type": "module",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "version": "0.0.0",
+  "author": "hoverkraft",
+  "license": "MIT",
+  "homepage": "https://github.com/hoverkraft-tech/github-action-ovh-mks-scaling",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hoverkraft-tech/github-action-ovh-mks-scaling.git"
   },
-  "keywords": [
-    "OVH",
-    "MKS",
-    "github-actions"
-  ],
-  "author": "hoverkraft-tech",
-  "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/hoverkraft-tech/github-action-ovh-mks-scaling/issues"
   },
-  "homepage": "https://github.com/hoverkraft-tech/github-action-ovh-mks-scaling#readme",
+  "keywords": [
+    "OVH",
+    "MKS",
+    "actions",
+    "github-actions"
+  ],
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
     "@actions/core": "^1.11.1",
     "@actions/github": "^6.0.1",
-    "ovh": "^2.0.3"
+    "@ovhcloud/node-ovh": "^3.0.0"
+  },
+  "devDependencies": {
+    "@ts-dev-tools/core": "^1.7.2",
+    "@vercel/ncc": "^0.38.3",
+    "eslint-plugin-github": "^6.0.0",
+    "eslint-plugin-jsonc": "^2.20.1"
+  },
+  "scripts": {
+    "package": "npm run package:index",
+    "package:index": "ncc build src/index.ts -o dist --license licenses.txt",
+    "package:watch": "npm run package -- --watch",
+    "lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "all": "npm run format && npm run lint && npm run test && npm run package",
+    "build": "tsc --noEmit",
+    "format": "prettier --cache --write '**/*.ts'",
+    "jest": "jest --detectOpenHandles --forceExit",
+    "test": "npm run jest --maxWorkers=50%",
+    "test:watch": "npm run jest --watch --maxWorkers=25%",
+    "test:cov": "npm run test --coverage",
+    "test:ci": "npm run test:cov --runInBand",
+    "prepare": "ts-dev-tools install"
+  },
+  "eslintConfig": {
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint",
+      "jest"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:jest/recommended",
+      "prettier"
+    ],
+    "env": {
+      "es2021": true
+    },
+    "ignorePatterns": [
+      "dist",
+      "node_modules"
+    ],
+    "parserOptions": {
+      "ecmaFeatures": {
+        "jsx": true
+      },
+      "ecmaVersion": 12,
+      "sourceType": "module"
+    },
+    "settings": {
+      "jest": {
+        "version": "detect"
+      }
+    }
+  },
+  "prettier": {
+    "semi": true,
+    "printWidth": 100,
+    "trailingComma": "es5"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint --fix"
+    ]
+  },
+  "importSort": {
+    ".js, .jsx, .ts, .tsx": {
+      "style": "module",
+      "parser": "typescript"
+    }
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/__tests__/**/*.[jt]s?(x)",
+      "**/?(*.)+(spec|test)?(.*).+(ts|tsx|js)"
+    ],
+    "collectCoverageFrom": [
+      "**/src/**/*.[jt]s?(x)"
+    ]
+  },
+  "tsDevTools": {
+    "version": "20240329200200-eslint-ignore"
   }
 }
