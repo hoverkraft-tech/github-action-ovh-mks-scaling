@@ -16,14 +16,13 @@
 <a href="https%3A%2F%2Fgithub.com%2Fhoverkraft-tech%2Fgithub-action-ovh-mks-scaling%2Freleases%2Flatest"><img src="https://img.shields.io/github/v/release/hoverkraft-tech/github-action-ovh-mks-scaling?display_name=tag&sort=semver&logo=github&style=flat-square" alt="Release%20by%20tag" /></a><a href="https%3A%2F%2Fgithub.com%2Fhoverkraft-tech%2Fgithub-action-ovh-mks-scaling%2Freleases%2Flatest"><img src="https://img.shields.io/github/release-date/hoverkraft-tech/github-action-ovh-mks-scaling?display_name=tag&sort=semver&logo=github&style=flat-square" alt="Release%20by%20date" /></a><img src="https://img.shields.io/github/last-commit/hoverkraft-tech/github-action-ovh-mks-scaling?logo=github&style=flat-square" alt="Commit" /><a href="https%3A%2F%2Fgithub.com%2Fhoverkraft-tech%2Fgithub-action-ovh-mks-scaling%2Fissues"><img src="https://img.shields.io/github/issues/hoverkraft-tech/github-action-ovh-mks-scaling?logo=github&style=flat-square" alt="Open%20Issues" /></a><img src="https://img.shields.io/github/downloads/hoverkraft-tech/github-action-ovh-mks-scaling/total?logo=github&style=flat-square" alt="Downloads" />
 
 <!-- end badges -->
-
-## <!-- markdownlint-enable MD013 -->
+<!-- markdownlint-enable MD013 -->
 
 </div>
 <!-- start description -->
 
 Scale up or down your OVH MKS nodepool.
-Rely on the OVH API through the [OVH NodeJS SDK](https://github.com/ovh/node-ovh) to manage your Kubernetes clusters.
+Rely on the OVH API through the [OVH Node.js SDK](https://github.com/ovh/node-ovh) to manage your Kubernetes clusters.
 It allows you to scale the number of nodes in a specific nodepool of an OVH Managed Kubernetes Service (MKS) cluster.
 This action supports both Application Key/Application Secret and OAuth2 authentication methods.
 
