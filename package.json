@@ -31,7 +31,7 @@
     "@ovhcloud/node-ovh": "^3.0.0"
   },
   "devDependencies": {
-    "@ts-dev-tools/core": "^1.7.2",
+    "@ts-dev-tools/core": "^1.9.4",
     "@vercel/ncc": "^0.38.3",
     "eslint-plugin-github": "^6.0.0",
     "eslint-plugin-jsonc": "^2.20.1"
