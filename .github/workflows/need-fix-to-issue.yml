@@ -25,7 +25,7 @@ concurrency:
 
 jobs:
   main:
-    uses: hoverkraft-tech/ci-github-common/.github/workflows/need-fix-to-issue.yml@9a3d71ca9f68bc1061db8ea1442084ac31a0f8bf # 0.23.0
+    uses: hoverkraft-tech/ci-github-common/.github/workflows/need-fix-to-issue.yml@b4883995e100e291a1fed68678d47a560328ed08 # 0.24.0
     with:
       manual-commit-ref: ${{ inputs.manual-commit-ref }}
       manual-base-ref: ${{ inputs.manual-base-ref }}
