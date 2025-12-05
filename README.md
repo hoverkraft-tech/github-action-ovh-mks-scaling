@@ -1,120 +1,154 @@
-<!-- markdownlint-disable-next-line first-line-heading -->
-<div align="center" width="100%">
-<!-- start branding -->
+<!-- header:start -->
 
-<img src=".github/ghadocs/branding.svg" width="15%" align="center" alt="branding<icon:align-left color:blue>" />
+# ![Icon](data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJmZWF0aGVyIGZlYXRoZXItYWxpZ24tbGVmdCIgY29sb3I9ImJsdWUiPjxsaW5lIHgxPSIxNyIgeTE9IjEwIiB4Mj0iMyIgeTI9IjEwIj48L2xpbmU+PGxpbmUgeDE9IjIxIiB5MT0iNiIgeDI9IjMiIHkyPSI2Ij48L2xpbmU+PGxpbmUgeDE9IjIxIiB5MT0iMTQiIHgyPSIzIiB5Mj0iMTQiPjwvbGluZT48bGluZSB4MT0iMTciIHkxPSIxOCIgeDI9IjMiIHkyPSIxOCI+PC9saW5lPjwvc3ZnPg==) GitHub Action: OVH MKS Scaling
 
-<!-- end branding -->
-<!-- start title -->
-
-# <img src=".github/ghadocs/branding.svg" width="60px" align="center" alt="branding<icon:align-left color:blue>" /> GitHub Action: OVH MKS Scaling
-
-<!-- end title -->
-<!-- markdownlint-disable MD013 -->
-<!-- start badges -->
-
-<a href="https%3A%2F%2Fgithub.com%2Fhoverkraft-tech%2Fgithub-action-ovh-mks-scaling%2Freleases%2Flatest"><img src="https://img.shields.io/github/v/release/hoverkraft-tech/github-action-ovh-mks-scaling?display_name=tag&sort=semver&logo=github&style=flat-square" alt="Release%20by%20tag" /></a><a href="https%3A%2F%2Fgithub.com%2Fhoverkraft-tech%2Fgithub-action-ovh-mks-scaling%2Freleases%2Flatest"><img src="https://img.shields.io/github/release-date/hoverkraft-tech/github-action-ovh-mks-scaling?display_name=tag&sort=semver&logo=github&style=flat-square" alt="Release%20by%20date" /></a><img src="https://img.shields.io/github/last-commit/hoverkraft-tech/github-action-ovh-mks-scaling?logo=github&style=flat-square" alt="Commit" /><a href="https%3A%2F%2Fgithub.com%2Fhoverkraft-tech%2Fgithub-action-ovh-mks-scaling%2Fissues"><img src="https://img.shields.io/github/issues/hoverkraft-tech/github-action-ovh-mks-scaling?logo=github&style=flat-square" alt="Open%20Issues" /></a><img src="https://img.shields.io/github/downloads/hoverkraft-tech/github-action-ovh-mks-scaling/total?logo=github&style=flat-square" alt="Downloads" />
-
-<!-- end badges -->
-<!-- markdownlint-enable MD013 -->
-
+<div align="center">
+  <img src="https://opengraph.githubassets.com/f53c3081e7f348cbdd2ec0924b1c40b9244710c55856359f049faeb8fe4cafb4/hoverkraft-tech/github-action-ovh-mks-scaling" width="60px" align="center" alt="OVH MKS Scaling" />
 </div>
-<!-- start description -->
+
+---
+
+<!-- header:end -->
+<!-- badges:start -->
+
+[![Marketplace](https://img.shields.io/badge/Marketplace-ovh--mks--scaling-blue?logo=github-actions)](https://github.com/marketplace/actions/ovh-mks-scaling)
+[![Release](https://img.shields.io/github/v/release/hoverkraft-tech/github-action-ovh-mks-scaling)](https://github.com/hoverkraft-tech/github-action-ovh-mks-scaling/releases)
+[![License](https://img.shields.io/github/license/hoverkraft-tech/github-action-ovh-mks-scaling)](http://choosealicense.com/licenses/mit/)
+[![Stars](https://img.shields.io/github/stars/hoverkraft-tech/github-action-ovh-mks-scaling?style=social)](https://img.shields.io/github/stars/hoverkraft-tech/github-action-ovh-mks-scaling?style=social)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/hoverkraft-tech/github-action-ovh-mks-scaling/blob/main/CONTRIBUTING.md)
+
+<!-- badges:end -->
+<!-- overview:start -->
+
+## Overview
 
 Scale up or down your OVH MKS nodepool.
-Rely on the OVH API through the [OVH NodeJS SDK](https://github.com/ovh/node-ovh) to manage your Kubernetes clusters.
+Rely on the OVH API through the [OVH Node.js SDK](https://github.com/ovh/node-ovh) to manage your Kubernetes clusters.
 It allows you to scale the number of nodes in a specific nodepool of an OVH Managed Kubernetes Service (MKS) cluster.
 This action supports both Application Key/Application Secret and OAuth2 authentication methods.
 
-<!-- end description -->
-<!-- start contents -->
-<!-- end contents -->
+<!-- overview:end -->
+<!-- usage:start -->
 
 ## Usage
 
+```yaml
+- uses: hoverkraft-tech/github-action-ovh-mks-scaling@b791bcd4e37aabc98d11a69ed28b8d418eaef1a8 # main
+  with:
+    # The OVH endpoint to use.
+    # See the [available endpoints](https://github.com/ovh/node-ovh/blob/master/lib/endpoints.js) list.
+    endpoint: ""
+
+    # The OVH application key
+    application-key: ""
+
+    # The OVH application secret
+    application-secret: ""
+
+    # The OVH consumer key
+    consumer-key: ""
+
+    # The OAuth2 client ID
+    client-id: ""
+
+    # The OAuth2 client secret
+    client-secret: ""
+
+    # The project ID of the OVH MKS project
+    # This input is required.
+    project-id: ""
+
+    # The ID of the OVH MKS cluster
+    # This input is required.
+    cluster-id: ""
+
+    # The ID of the OVH MKS nodepool
+    # This input is required.
+    nodepool-id: ""
+
+    # The number of nodes to scale to
+    # This input is required.
+    # Default: `1`
+    number-of-nodes: "1"
+```
+
+<!-- usage:end -->
+
+### Prerequisites
+
 You need first to :
 
-- create an application in OVH API at : <https://www.ovh.com/auth/api/createApp>
-- export env vars `OVH_APPLICATION_KEY` and `OVH_APPLICATION_SECRET`
-- and to run the script `scripts/create-ovh-creds.sh`
+- Create an application in OVH API at : <https://www.ovh.com/auth/api/createApp>
+- Export env vars `OVH_APPLICATION_KEY` and `OVH_APPLICATION_SECRET`
+- And to run the script `scripts/create-ovh-creds.sh`
 - note the consumer key
 - click on the link for credentials validation
 
-<!-- start usage -->
+```sh
+export OVH_APPLICATION_KEY="your_application_key"
+export OVH_APPLICATION_SECRET="your_application_secret"
 
-```yaml
-- uses: hoverkraft-tech/github-action-ovh-mks-scaling@v0.0.0
-  with:
-    # Description: The OVH endpoint to use. See the
-    # [available endpoints](https://github.com/ovh/node-ovh/blob/master/lib/endpoints.js)
-    # list.
-    #
-    endpoint: ""
-
-    # Description: The OVH application key
-    #
-    application-key: ""
-
-    # Description: The OVH application secret
-    #
-    application-secret: ""
-
-    # Description: The OVH consumer key
-    #
-    consumer-key: ""
-
-    # Description: The OAuth2 client ID
-    #
-    client-id: ""
-
-    # Description: The OAuth2 client secret
-    #
-    client-secret: ""
-
-    # Description: The project ID of the OVH MKS project
-    #
-    project-id: ""
-
-    # Description: The ID of the OVH MKS cluster
-    #
-    cluster-id: ""
-
-    # Description: The ID of the OVH MKS nodepool
-    #
-    nodepool-id: ""
-
-    # Description: The number of nodes to scale to
-    #
-    # Default: 1
-    number-of-nodes: ""
+bash scripts/create-ovh-creds.sh
 ```
 
-<!-- end usage -->
+<!-- inputs:start -->
 
 ## Inputs
 
-<!-- start inputs -->
+| **Input**                | **Description**                                                                                   | **Required** | **Default** |
+| ------------------------ | ------------------------------------------------------------------------------------------------- | ------------ | ----------- |
+| **`endpoint`**           | The OVH endpoint to use.                                                                          | **false**    | -           |
+|                          | See the [available endpoints](https://github.com/ovh/node-ovh/blob/master/lib/endpoints.js) list. |              |             |
+| **`application-key`**    | The OVH application key                                                                           | **false**    | -           |
+| **`application-secret`** | The OVH application secret                                                                        | **false**    | -           |
+| **`consumer-key`**       | The OVH consumer key                                                                              | **false**    | -           |
+| **`client-id`**          | The OAuth2 client ID                                                                              | **false**    | -           |
+| **`client-secret`**      | The OAuth2 client secret                                                                          | **false**    | -           |
+| **`project-id`**         | The project ID of the OVH MKS project                                                             | **true**     | -           |
+| **`cluster-id`**         | The ID of the OVH MKS cluster                                                                     | **true**     | -           |
+| **`nodepool-id`**        | The ID of the OVH MKS nodepool                                                                    | **true**     | -           |
+| **`number-of-nodes`**    | The number of nodes to scale to                                                                   | **true**     | `1`         |
 
-| **Input**                       | **Description**                                                                                                                 | **Default**    | **Required** |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | -------------- | ------------ |
-| <code>endpoint</code>           | The OVH endpoint to use.<br />See the [available endpoints](https://github.com/ovh/node-ovh/blob/master/lib/endpoints.js) list. |                | **false**    |
-| <code>application-key</code>    | The OVH application key                                                                                                         |                | **false**    |
-| <code>application-secret</code> | The OVH application secret                                                                                                      |                | **false**    |
-| <code>consumer-key</code>       | The OVH consumer key                                                                                                            |                | **false**    |
-| <code>client-id</code>          | The OAuth2 client ID                                                                                                            |                | **false**    |
-| <code>client-secret</code>      | The OAuth2 client secret                                                                                                        |                | **false**    |
-| <code>project-id</code>         | The project ID of the OVH MKS project                                                                                           |                | **true**     |
-| <code>cluster-id</code>         | The ID of the OVH MKS cluster                                                                                                   |                | **true**     |
-| <code>nodepool-id</code>        | The ID of the OVH MKS nodepool                                                                                                  |                | **true**     |
-| <code>number-of-nodes</code>    | The number of nodes to scale to                                                                                                 | <code>1</code> | **true**     |
+<!-- inputs:end -->
+<!-- secrets:start -->
+<!-- secrets:end -->
+<!-- outputs:start -->
 
-<!-- end inputs -->
-<!-- start outputs -->
+## Outputs
 
-| **Output**            | **Description**            |
-| --------------------- | -------------------------- |
-| <code>response</code> | The response of the server |
+| **Output**     | **Description**            |
+| -------------- | -------------------------- |
+| **`response`** | The response of the server |
 
-<!-- end outputs -->
-<!-- start [.github/ghadocs/examples/] -->
-<!-- end [.github/ghadocs/examples/] -->
+<!-- outputs:end -->
+<!-- examples:start -->
+<!-- examples:end -->
+<!-- contributing:start -->
+
+## Contributing
+
+Contributions are welcome! Please see the [contributing guidelines](https://github.com/hoverkraft-tech/github-action-ovh-mks-scaling/blob/main/CONTRIBUTING.md) for more details.
+
+<!-- contributing:end -->
+<!-- security:start -->
+<!-- security:end -->
+<!-- license:start -->
+
+## License
+
+This project is licensed under the MIT License.
+
+SPDX-License-Identifier: MIT
+
+Copyright © 2025 hoverkraft
+
+For more details, see the [license](http://choosealicense.com/licenses/mit/).
+
+<!-- license:end -->
+<!-- generated:start -->
+
+---
+
+This documentation was automatically generated by [CI Dokumentor](https://github.com/hoverkraft-tech/ci-dokumentor).
+
+<!-- generated:end -->
