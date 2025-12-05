@@ -3,7 +3,7 @@
 # ![Icon](data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJmZWF0aGVyIGZlYXRoZXItYWxpZ24tbGVmdCIgY29sb3I9ImJsdWUiPjxsaW5lIHgxPSIxNyIgeTE9IjEwIiB4Mj0iMyIgeTI9IjEwIj48L2xpbmU+PGxpbmUgeDE9IjIxIiB5MT0iNiIgeDI9IjMiIHkyPSI2Ij48L2xpbmU+PGxpbmUgeDE9IjIxIiB5MT0iMTQiIHgyPSIzIiB5Mj0iMTQiPjwvbGluZT48bGluZSB4MT0iMTciIHkxPSIxOCIgeDI9IjMiIHkyPSIxOCI+PC9saW5lPjwvc3ZnPg==) GitHub Action: OVH MKS Scaling
 
 <div align="center">
-  <img src="https://opengraph.githubassets.com/4288e97a374686ae79d4f7266c5da5451bcada534e1e6086875bd7799da83188/hoverkraft-tech/github-action-ovh-mks-scaling" width="60px" align="center" alt="OVH MKS Scaling" />
+  <img src="https://repository-images.githubusercontent.com/980646704/0aee2df9-ce18-4986-bb50-ea9c9520c3ba" width="60px" align="center" alt="OVH MKS Scaling" />
 </div>
 
 ---
