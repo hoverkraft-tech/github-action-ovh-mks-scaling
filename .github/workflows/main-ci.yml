@@ -33,19 +33,19 @@ jobs:
     if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      - uses: bitflight-devops/github-action-readme-generator@f750ff0ac8a4b68a3c2d622cc50a5ad20bcebaa1 # v1.8.0
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: bitflight-devops/github-action-readme-generator@87ca169fb842a91331005c19b94b9130fd9ed438 # v1.8.0
         with:
           owner: ${{ github.repository_owner }}
           repo: ${{ github.event.repository.name }}
 
-      - uses: actions/create-github-app-token@df432ceedc7162793a195dd1713ff69aefc7379e # v2.0.6
+      - uses: actions/create-github-app-token@7e473efe3cb98aa54f8d4bac15400b15fad77d94 # v2.2.0
         id: generate-token
         with:
           app-id: ${{ vars.CI_BOT_APP_ID }}
           private-key: ${{ secrets.CI_BOT_APP_PRIVATE_KEY }}
 
-      - uses: hoverkraft-tech/ci-github-common/actions/create-and-merge-pull-request@9a3d71ca9f68bc1061db8ea1442084ac31a0f8bf # 0.23.0
+      - uses: hoverkraft-tech/ci-github-common/actions/create-and-merge-pull-request@5ac504609f6ef35c5ac94bd8199063aa32104721 # 0.31.3
         with:
           github-token: ${{ steps.generate-token.outputs.token }}
           branch: docs/actions-workflows-documentation-update
