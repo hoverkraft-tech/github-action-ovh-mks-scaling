@@ -53793,8 +53793,8 @@ var InputNames;
 (function (InputNames) {
     InputNames["Endpoint"] = "endpoint";
     // Authentication - Application Key/ApplicationSecret
-    InputNames["AppKey"] = "app-key";
-    InputNames["AppSecret"] = "app-secret";
+    InputNames["AppKey"] = "application-key";
+    InputNames["AppSecret"] = "application-secret";
     InputNames["ConsumerKey"] = "consumer-key";
     // Authentication - OAuth2
     InputNames["ClientId"] = "client-id";
@@ -53910,7 +53910,7 @@ class OvhService {
             endpoint: endpoint || undefined,
             ...authParameters,
         };
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
         this.client = __nccwpck_require__(6265)(parameters);
     }
     authenticateClientWithAppCredentials(appKey, appSecret, consumerKey) {
