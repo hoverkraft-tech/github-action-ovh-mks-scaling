@@ -64,8 +64,8 @@ describe("InputService", () => {
       });
     });
 
-    describe("app-key", () => {
-      it("should return given app-key input", () => {
+    describe("application-key", () => {
+      it("should return given application-key input", () => {
         getInputMock.mockImplementation((inputName) => {
           switch (inputName) {
             case InputNames.AppKey:
@@ -88,7 +88,7 @@ describe("InputService", () => {
         expect(inputs.appKey).toEqual("test-app-key");
       });
 
-      it("should return null when no app-key input", () => {
+      it("should return null when no application-key input", () => {
         getInputMock.mockImplementation((inputName) => {
           switch (inputName) {
             case InputNames.AppKey:
@@ -112,8 +112,8 @@ describe("InputService", () => {
       });
     });
 
-    describe("app-secret", () => {
-      it("should return given app-secret input", () => {
+    describe("application-secret", () => {
+      it("should return given application-secret input", () => {
         getInputMock.mockImplementation((inputName) => {
           switch (inputName) {
             case InputNames.AppSecret:
@@ -136,7 +136,7 @@ describe("InputService", () => {
         expect(inputs.appSecret).toEqual("test-app-secret");
       });
 
-      it("should return null when no app-secret input", () => {
+      it("should return null when no application-secret input", () => {
         getInputMock.mockImplementation((inputName) => {
           switch (inputName) {
             case InputNames.AppSecret:

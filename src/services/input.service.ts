@@ -22,8 +22,8 @@ export enum InputNames {
   Endpoint = "endpoint",
 
   // Authentication - Application Key/ApplicationSecret
-  AppKey = "app-key",
-  AppSecret = "app-secret",
+  AppKey = "application-key",
+  AppSecret = "application-secret",
   ConsumerKey = "consumer-key",
 
   // Authentication - OAuth2
