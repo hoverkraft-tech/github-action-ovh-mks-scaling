@@ -189,7 +189,7 @@ describe("OvhService", () => {
 
     it("should call OVH API with correct parameters", async () => {
       const mockResponse: NodepoolUpdateResponse = {
-        autoscale: false,
+        autoscale: true,
         autoscaling: {},
         desiredNodes: 5,
         maxNodes: 5,
@@ -212,13 +212,16 @@ describe("OvhService", () => {
         clusterId: "test-cluster-id",
         nodepoolId: "test-nodepool-id",
         numberOfNodes: 5,
+        autoscale: true,
+        minNodes: null,
+        maxNodes: null,
       });
 
       expect(mockRequestPromised).toHaveBeenCalledWith(
         "PUT",
         "/cloud/project/test-project-id/kube/test-cluster-id/nodepool/test-nodepool-id",
         {
-          autoscale: false,
+          autoscale: true,
           autoscaling: {},
           minNodes: 5,
           maxNodes: 5,
@@ -239,6 +242,9 @@ describe("OvhService", () => {
           clusterId: "test-cluster-id",
           nodepoolId: "test-nodepool-id",
           numberOfNodes: 3,
+          autoscale: true,
+          minNodes: null,
+          maxNodes: null,
         })
       ).rejects.toThrow("API Error");
 
@@ -246,7 +252,7 @@ describe("OvhService", () => {
         "PUT",
         "/cloud/project/test-project-id/kube/test-cluster-id/nodepool/test-nodepool-id",
         {
-          autoscale: false,
+          autoscale: true,
           autoscaling: {},
           minNodes: 3,
           maxNodes: 3,
@@ -257,7 +263,7 @@ describe("OvhService", () => {
 
     it("should work with different node counts", async () => {
       const mockResponse: NodepoolUpdateResponse = {
-        autoscale: false,
+        autoscale: true,
         autoscaling: {},
         desiredNodes: 10,
         maxNodes: 10,
@@ -275,6 +281,85 @@ describe("OvhService", () => {
         clusterId: "cluster-456",
         nodepoolId: "nodepool-789",
         numberOfNodes: 10,
+        autoscale: true,
+        minNodes: null,
+        maxNodes: null,
+      });
+
+      expect(mockRequestPromised).toHaveBeenCalledWith(
+        "PUT",
+        "/cloud/project/project-123/kube/cluster-456/nodepool/nodepool-789",
+        {
+          autoscale: true,
+          autoscaling: {},
+          minNodes: 10,
+          maxNodes: 10,
+          desiredNodes: 10,
+        }
+      );
+    });
+
+    it("should use provided minNodes and maxNodes when autoscale is enabled", async () => {
+      const mockResponse: NodepoolUpdateResponse = {
+        autoscale: true,
+        autoscaling: {},
+        desiredNodes: 5,
+        maxNodes: 10,
+        minNodes: 2,
+        template: {
+          metadata: {},
+          spec: {},
+        },
+      };
+
+      mockRequestPromised.mockResolvedValue(mockResponse);
+
+      await service.scaleNodepool({
+        projectId: "project-123",
+        clusterId: "cluster-456",
+        nodepoolId: "nodepool-789",
+        numberOfNodes: 5,
+        autoscale: true,
+        minNodes: 2,
+        maxNodes: 10,
+      });
+
+      expect(mockRequestPromised).toHaveBeenCalledWith(
+        "PUT",
+        "/cloud/project/project-123/kube/cluster-456/nodepool/nodepool-789",
+        {
+          autoscale: true,
+          autoscaling: {},
+          minNodes: 2,
+          maxNodes: 10,
+          desiredNodes: 5,
+        }
+      );
+    });
+
+    it("should disable autoscale and use numberOfNodes for min/max when autoscale is false and no overrides", async () => {
+      const mockResponse: NodepoolUpdateResponse = {
+        autoscale: false,
+        autoscaling: {},
+        desiredNodes: 3,
+        maxNodes: 3,
+        minNodes: 3,
+        template: {
+          metadata: {},
+          spec: {},
+        },
+      };
+
+      mockRequestPromised.mockResolvedValue(mockResponse);
+
+      await service.scaleNodepool({
+        projectId: "project-123",
+        clusterId: "cluster-456",
+        nodepoolId: "nodepool-789",
+        numberOfNodes: 3,
+        autoscale: false,
+        minNodes: null,
+        maxNodes: null,
       });
 
       expect(mockRequestPromised).toHaveBeenCalledWith(
@@ -283,9 +368,9 @@ describe("OvhService", () => {
         {
           autoscale: false,
           autoscaling: {},
-          minNodes: 10,
-          maxNodes: 10,
-          desiredNodes: 10,
+          minNodes: 3,
+          maxNodes: 3,
+          desiredNodes: 3,
         }
       );
     });

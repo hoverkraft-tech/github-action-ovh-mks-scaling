@@ -32,6 +32,9 @@ export async function run(): Promise<void> {
       clusterId: inputs.clusterId,
       nodepoolId: inputs.nodepoolId,
       numberOfNodes: inputs.numberOfNodes,
+      autoscale: inputs.autoscale,
+      minNodes: inputs.minNodes,
+      maxNodes: inputs.maxNodes,
     });
     loggerService.info("Nodepool scaling completed successfully.");
     setOutput("result", JSON.stringify(result));

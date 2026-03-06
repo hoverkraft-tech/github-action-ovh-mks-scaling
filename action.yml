@@ -46,8 +46,22 @@ inputs:
     description: "The ID of the OVH MKS nodepool"
   number-of-nodes:
     required: true
-    description: "The number of nodes to scale to"
+    description: "The desired number of nodes to scale to"
     default: "1"
+  autoscale:
+    required: false
+    description: "Whether to enable autoscaling for the nodepool"
+    default: "true"
+  min-nodes:
+    required: false
+    description: |
+      The minimum number of nodes for autoscaling.
+      Defaults to the value of number-of-nodes if not provided.
+  max-nodes:
+    required: false
+    description: |
+      The maximum number of nodes for autoscaling.
+      Defaults to the value of number-of-nodes if not provided.
 
 outputs:
   response:
