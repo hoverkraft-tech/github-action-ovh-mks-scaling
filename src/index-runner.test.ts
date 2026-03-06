@@ -36,6 +36,9 @@ describe("run", () => {
       clusterId: "cluster-id",
       nodepoolId: "nodepool-id",
       numberOfNodes: 3,
+      autoscale: true,
+      minNodes: null,
+      maxNodes: null,
     }));
 
     scaleNodepoolMock.mockResolvedValueOnce({} as NodepoolUpdateResponse);
@@ -46,7 +49,7 @@ describe("run", () => {
     // Assert
     expect(debugMock).toHaveBeenNthCalledWith(
       1,
-      'inputs: {"endpoint":"ovh-eu","appKey":"app-key","appSecret":"app-secret","consumerKey":"consumer-key","clientId":null,"clientSecret":null,"projectId":"project-id","clusterId":"cluster-id","nodepoolId":"nodepool-id","numberOfNodes":3}'
+      'inputs: {"endpoint":"ovh-eu","appKey":"app-key","appSecret":"app-secret","consumerKey":"consumer-key","clientId":null,"clientSecret":null,"projectId":"project-id","clusterId":"cluster-id","nodepoolId":"nodepool-id","numberOfNodes":3,"autoscale":true,"minNodes":null,"maxNodes":null}'
     );
 
     expect(infoMock).toHaveBeenNthCalledWith(
@@ -59,6 +62,9 @@ describe("run", () => {
       clusterId: "cluster-id",
       nodepoolId: "nodepool-id",
       numberOfNodes: 3,
+      autoscale: true,
+      minNodes: null,
+      maxNodes: null,
     });
 
     expect(setFailedMock).not.toHaveBeenCalled();
@@ -82,6 +88,9 @@ describe("run", () => {
       clusterId: "cluster-id",
       nodepoolId: "nodepool-id",
       numberOfNodes: 3,
+      autoscale: true,
+      minNodes: null,
+      maxNodes: null,
     }));
 
     // Act
@@ -107,6 +116,9 @@ describe("run", () => {
       clusterId: "cluster-id",
       nodepoolId: "nodepool-id",
       numberOfNodes: 3,
+      autoscale: true,
+      minNodes: null,
+      maxNodes: null,
     }));
 
     // Act

@@ -150,21 +150,34 @@ export class OvhService {
     clusterId,
     nodepoolId,
     numberOfNodes,
+    autoscale,
+    minNodes,
+    maxNodes,
   }: {
     projectId: Inputs["projectId"];
     clusterId: Inputs["clusterId"];
     nodepoolId: Inputs["nodepoolId"];
     numberOfNodes: Inputs["numberOfNodes"];
+    autoscale: Inputs["autoscale"];
+    minNodes: Inputs["minNodes"];
+    maxNodes: Inputs["maxNodes"];
   }) {
+    const effectiveMinNodes = minNodes ?? numberOfNodes;
+    const effectiveMaxNodes = maxNodes ?? numberOfNodes;
+    const effectiveDesiredNodes = Math.min(
+      Math.max(numberOfNodes, effectiveMinNodes),
+      effectiveMaxNodes
+    );
+
     return this.client.requestPromised(
       "PUT",
       `/cloud/project/${projectId}/kube/${clusterId}/nodepool/${nodepoolId}`,
       {
-        autoscale: false,
+        autoscale,
         autoscaling: {},
-        minNodes: numberOfNodes,
-        maxNodes: numberOfNodes,
-        desiredNodes: numberOfNodes,
+        minNodes: effectiveMinNodes,
+        maxNodes: effectiveMaxNodes,
+        desiredNodes: effectiveDesiredNodes,
       }
     );
   }
