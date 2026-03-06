@@ -26,8 +26,8 @@
     "node": ">=20"
   },
   "dependencies": {
-    "@actions/core": "^1.11.1",
-    "@actions/github": "^6.0.1",
+    "@actions/core": "^2.0.2",
+    "@actions/github": "^7.0.0",
     "@ovhcloud/node-ovh": "^3.0.0"
   },
   "devDependencies": {
