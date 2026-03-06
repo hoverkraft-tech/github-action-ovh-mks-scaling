@@ -53769,6 +53769,9 @@ async function run() {
             clusterId: inputs.clusterId,
             nodepoolId: inputs.nodepoolId,
             numberOfNodes: inputs.numberOfNodes,
+            autoscale: inputs.autoscale,
+            minNodes: inputs.minNodes,
+            maxNodes: inputs.maxNodes,
         });
         loggerService.info("Nodepool scaling completed successfully.");
         (0, core_1.setOutput)("result", JSON.stringify(result));
@@ -53804,6 +53807,9 @@ var InputNames;
     InputNames["ClusterId"] = "cluster-id";
     InputNames["NodepoolId"] = "nodepool-id";
     InputNames["NumberOfNodes"] = "number-of-nodes";
+    InputNames["Autoscale"] = "autoscale";
+    InputNames["MinNodes"] = "min-nodes";
+    InputNames["MaxNodes"] = "max-nodes";
 })(InputNames || (exports.InputNames = InputNames = {}));
 class InputService {
     getInputs() {
@@ -53821,6 +53827,9 @@ class InputService {
             clusterId: this.getClusterId(),
             nodepoolId: this.getNodepoolId(),
             numberOfNodes: this.getNumberOfNodes(),
+            autoscale: this.getAutoscale(),
+            minNodes: this.getMinNodes(),
+            maxNodes: this.getMaxNodes(),
         };
     }
     getEndpoint() {
@@ -53852,6 +53861,22 @@ class InputService {
     }
     getNumberOfNodes() {
         return parseInt((0, core_1.getInput)(InputNames.NumberOfNodes, { required: true }), 10);
+    }
+    getAutoscale() {
+        const value = (0, core_1.getInput)(InputNames.Autoscale, { required: false });
+        return value === "" || value.toLowerCase() !== "false";
+    }
+    getMinNodes() {
+        const value = (0, core_1.getInput)(InputNames.MinNodes, { required: false });
+        if (!value)
+            return null;
+        return parseInt(value, 10);
+    }
+    getMaxNodes() {
+        const value = (0, core_1.getInput)(InputNames.MaxNodes, { required: false });
+        if (!value)
+            return null;
+        return parseInt(value, 10);
     }
 }
 exports.InputService = InputService;
@@ -53949,13 +53974,16 @@ class OvhService {
      *   -H "content-type: application/json" \
      *   -d '{"autoscale":false,"autoscaling":{"scaleDownUnneededTimeSeconds":0,"scaleDownUnreadyTimeSeconds":0,"scaleDownUtilizationThreshold":0},"desiredNodes":0,"maxNodes":0,"minNodes":0,"nodesToRemove":["string"],"template":{"metadata":{"annotations":{"any-key":"string"},"finalizers":["string"],"labels":{"any-key":"string"}},"spec":{"taints":[{"effect":"NoExecute","key":"string","value":"string"}],"unschedulable":false}}}' \
      **/
-    scaleNodepool({ projectId, clusterId, nodepoolId, numberOfNodes, }) {
+    scaleNodepool({ projectId, clusterId, nodepoolId, numberOfNodes, autoscale, minNodes, maxNodes, }) {
+        const effectiveMinNodes = minNodes ?? numberOfNodes;
+        const effectiveMaxNodes = maxNodes ?? numberOfNodes;
+        const effectiveDesiredNodes = Math.min(Math.max(numberOfNodes, effectiveMinNodes), effectiveMaxNodes);
         return this.client.requestPromised("PUT", `/cloud/project/${projectId}/kube/${clusterId}/nodepool/${nodepoolId}`, {
-            autoscale: false,
+            autoscale,
             autoscaling: {},
-            minNodes: numberOfNodes,
-            maxNodes: numberOfNodes,
-            desiredNodes: numberOfNodes,
+            minNodes: effectiveMinNodes,
+            maxNodes: effectiveMaxNodes,
+            desiredNodes: effectiveDesiredNodes,
         });
     }
 }

@@ -337,6 +337,58 @@ describe("OvhService", () => {
       );
     });
 
+    it("should clamp desiredNodes to minNodes when numberOfNodes is below minNodes", async () => {
+      mockRequestPromised.mockResolvedValue({} as NodepoolUpdateResponse);
+
+      await service.scaleNodepool({
+        projectId: "project-123",
+        clusterId: "cluster-456",
+        nodepoolId: "nodepool-789",
+        numberOfNodes: 1,
+        autoscale: true,
+        minNodes: 3,
+        maxNodes: 10,
+      });
+
+      expect(mockRequestPromised).toHaveBeenCalledWith(
+        "PUT",
+        "/cloud/project/project-123/kube/cluster-456/nodepool/nodepool-789",
+        {
+          autoscale: true,
+          autoscaling: {},
+          minNodes: 3,
+          maxNodes: 10,
+          desiredNodes: 3,
+        }
+      );
+    });
+
+    it("should clamp desiredNodes to maxNodes when numberOfNodes is above maxNodes", async () => {
+      mockRequestPromised.mockResolvedValue({} as NodepoolUpdateResponse);
+
+      await service.scaleNodepool({
+        projectId: "project-123",
+        clusterId: "cluster-456",
+        nodepoolId: "nodepool-789",
+        numberOfNodes: 15,
+        autoscale: true,
+        minNodes: 3,
+        maxNodes: 10,
+      });
+
+      expect(mockRequestPromised).toHaveBeenCalledWith(
+        "PUT",
+        "/cloud/project/project-123/kube/cluster-456/nodepool/nodepool-789",
+        {
+          autoscale: true,
+          autoscaling: {},
+          minNodes: 3,
+          maxNodes: 10,
+          desiredNodes: 10,
+        }
+      );
+    });
+
     it("should disable autoscale and use numberOfNodes for min/max when autoscale is false and no overrides", async () => {
       const mockResponse: NodepoolUpdateResponse = {
         autoscale: false,

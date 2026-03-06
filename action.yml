@@ -44,24 +44,31 @@ inputs:
   nodepool-id:
     required: true
     description: "The ID of the OVH MKS nodepool"
-  number-of-nodes:
-    required: true
-    description: "The desired number of nodes to scale to"
-    default: "1"
   autoscale:
     required: false
     description: "Whether to enable autoscaling for the nodepool"
     default: "true"
+  number-of-nodes:
+    required: true
+    description: |
+      The desired number of nodes to scale to.
+      This value sets the `desiredNodes` property on the OVH API.
+      It is also used as the default for `min-nodes` and `max-nodes` when they are not provided.
+      The effective `desiredNodes` sent to the API is clamped between `min-nodes` and `max-nodes`
+      (i.e. `max(number-of-nodes, min-nodes)` then `min(result, max-nodes)`).
+    default: "1"
   min-nodes:
     required: false
     description: |
-      The minimum number of nodes for autoscaling.
-      Defaults to the value of number-of-nodes if not provided.
+      The minimum number of nodes for autoscaling (sets `minNodes` on the OVH API).
+      Defaults to `number-of-nodes` if not provided.
+      When autoscaling is enabled, the cluster will never scale below this value.
   max-nodes:
     required: false
     description: |
-      The maximum number of nodes for autoscaling.
-      Defaults to the value of number-of-nodes if not provided.
+      The maximum number of nodes for autoscaling (sets `maxNodes` on the OVH API).
+      Defaults to `number-of-nodes` if not provided.
+      When autoscaling is enabled, the cluster will never scale above this value.
 
 outputs:
   response:
