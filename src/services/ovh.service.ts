@@ -164,6 +164,10 @@ export class OvhService {
   }) {
     const effectiveMinNodes = minNodes ?? numberOfNodes;
     const effectiveMaxNodes = maxNodes ?? numberOfNodes;
+    const effectiveDesiredNodes = Math.min(
+      Math.max(numberOfNodes, effectiveMinNodes),
+      effectiveMaxNodes
+    );
 
     return this.client.requestPromised(
       "PUT",
@@ -173,7 +177,7 @@ export class OvhService {
         autoscaling: {},
         minNodes: effectiveMinNodes,
         maxNodes: effectiveMaxNodes,
-        desiredNodes: numberOfNodes,
+        desiredNodes: effectiveDesiredNodes,
       }
     );
   }
