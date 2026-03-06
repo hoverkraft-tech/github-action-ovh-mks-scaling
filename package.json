@@ -60,7 +60,14 @@
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
-    ]
+    ],
+    "rules": {
+      "body-max-line-length": [
+        2,
+        "always",
+        20480
+      ]
+    }
   },
   "lint-staged": {
     "*.{js,ts,tsx}": [
@@ -85,6 +92,6 @@
     ]
   },
   "tsDevTools": {
-    "version": "20250623095500-add-prettier-oxc"
+    "version": "20250623095600-remove-prettier-oxc"
   }
 }
