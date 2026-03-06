@@ -482,5 +482,168 @@ describe("InputService", () => {
         expect(inputs.numberOfNodes).toBeNaN();
       });
     });
+
+    describe("autoscale", () => {
+      it("should return true when autoscale input is not provided", () => {
+        getInputMock.mockImplementation((inputName) => {
+          switch (inputName) {
+            case InputNames.ProjectId:
+              return "project-123";
+            case InputNames.ClusterId:
+              return "cluster-123";
+            case InputNames.NodepoolId:
+              return "nodepool-456";
+            case InputNames.NumberOfNodes:
+              return "3";
+            case InputNames.Autoscale:
+              return "";
+            default:
+              return "";
+          }
+        });
+
+        const inputs = service.getInputs();
+
+        expect(inputs.autoscale).toBe(true);
+      });
+
+      it("should return true when autoscale input is 'true'", () => {
+        getInputMock.mockImplementation((inputName) => {
+          switch (inputName) {
+            case InputNames.ProjectId:
+              return "project-123";
+            case InputNames.ClusterId:
+              return "cluster-123";
+            case InputNames.NodepoolId:
+              return "nodepool-456";
+            case InputNames.NumberOfNodes:
+              return "3";
+            case InputNames.Autoscale:
+              return "true";
+            default:
+              return "";
+          }
+        });
+
+        const inputs = service.getInputs();
+
+        expect(inputs.autoscale).toBe(true);
+      });
+
+      it("should return false when autoscale input is 'false'", () => {
+        getInputMock.mockImplementation((inputName) => {
+          switch (inputName) {
+            case InputNames.ProjectId:
+              return "project-123";
+            case InputNames.ClusterId:
+              return "cluster-123";
+            case InputNames.NodepoolId:
+              return "nodepool-456";
+            case InputNames.NumberOfNodes:
+              return "3";
+            case InputNames.Autoscale:
+              return "false";
+            default:
+              return "";
+          }
+        });
+
+        const inputs = service.getInputs();
+
+        expect(inputs.autoscale).toBe(false);
+      });
+    });
+
+    describe("min-nodes", () => {
+      it("should return null when min-nodes input is not provided", () => {
+        getInputMock.mockImplementation((inputName) => {
+          switch (inputName) {
+            case InputNames.ProjectId:
+              return "project-123";
+            case InputNames.ClusterId:
+              return "cluster-123";
+            case InputNames.NodepoolId:
+              return "nodepool-456";
+            case InputNames.NumberOfNodes:
+              return "3";
+            default:
+              return "";
+          }
+        });
+
+        const inputs = service.getInputs();
+
+        expect(inputs.minNodes).toBeNull();
+      });
+
+      it("should return given min-nodes input as number", () => {
+        getInputMock.mockImplementation((inputName) => {
+          switch (inputName) {
+            case InputNames.ProjectId:
+              return "project-123";
+            case InputNames.ClusterId:
+              return "cluster-123";
+            case InputNames.NodepoolId:
+              return "nodepool-456";
+            case InputNames.NumberOfNodes:
+              return "3";
+            case InputNames.MinNodes:
+              return "1";
+            default:
+              return "";
+          }
+        });
+
+        const inputs = service.getInputs();
+
+        expect(inputs.minNodes).toEqual(1);
+      });
+    });
+
+    describe("max-nodes", () => {
+      it("should return null when max-nodes input is not provided", () => {
+        getInputMock.mockImplementation((inputName) => {
+          switch (inputName) {
+            case InputNames.ProjectId:
+              return "project-123";
+            case InputNames.ClusterId:
+              return "cluster-123";
+            case InputNames.NodepoolId:
+              return "nodepool-456";
+            case InputNames.NumberOfNodes:
+              return "3";
+            default:
+              return "";
+          }
+        });
+
+        const inputs = service.getInputs();
+
+        expect(inputs.maxNodes).toBeNull();
+      });
+
+      it("should return given max-nodes input as number", () => {
+        getInputMock.mockImplementation((inputName) => {
+          switch (inputName) {
+            case InputNames.ProjectId:
+              return "project-123";
+            case InputNames.ClusterId:
+              return "cluster-123";
+            case InputNames.NodepoolId:
+              return "nodepool-456";
+            case InputNames.NumberOfNodes:
+              return "3";
+            case InputNames.MaxNodes:
+              return "10";
+            default:
+              return "";
+          }
+        });
+
+        const inputs = service.getInputs();
+
+        expect(inputs.maxNodes).toEqual(10);
+      });
+    });
   });
 });

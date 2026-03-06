@@ -16,6 +16,9 @@ export type Inputs = {
   clusterId: string;
   nodepoolId: string;
   numberOfNodes: number;
+  autoscale: boolean;
+  minNodes: number | null;
+  maxNodes: number | null;
 };
 
 export enum InputNames {
@@ -35,6 +38,9 @@ export enum InputNames {
   ClusterId = "cluster-id",
   NodepoolId = "nodepool-id",
   NumberOfNodes = "number-of-nodes",
+  Autoscale = "autoscale",
+  MinNodes = "min-nodes",
+  MaxNodes = "max-nodes",
 }
 
 export class InputService {
@@ -53,6 +59,9 @@ export class InputService {
       clusterId: this.getClusterId(),
       nodepoolId: this.getNodepoolId(),
       numberOfNodes: this.getNumberOfNodes(),
+      autoscale: this.getAutoscale(),
+      minNodes: this.getMinNodes(),
+      maxNodes: this.getMaxNodes(),
     };
   }
 
@@ -94,5 +103,22 @@ export class InputService {
 
   private getNumberOfNodes(): number {
     return parseInt(getInput(InputNames.NumberOfNodes, { required: true }), 10);
+  }
+
+  private getAutoscale(): boolean {
+    const value = getInput(InputNames.Autoscale, { required: false });
+    return value === "" || value.toLowerCase() !== "false";
+  }
+
+  private getMinNodes(): number | null {
+    const value = getInput(InputNames.MinNodes, { required: false });
+    if (!value) return null;
+    return parseInt(value, 10);
+  }
+
+  private getMaxNodes(): number | null {
+    const value = getInput(InputNames.MaxNodes, { required: false });
+    if (!value) return null;
+    return parseInt(value, 10);
   }
 }
