@@ -85,6 +85,6 @@
     ]
   },
   "tsDevTools": {
-    "version": "20250623095500-add-prettier-oxc"
+    "version": "20250623095600-remove-prettier-oxc"
   }
 }
