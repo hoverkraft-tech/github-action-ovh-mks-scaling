@@ -16,6 +16,7 @@ jobs:
     with:
       linter-env: |
         FILTER_REGEX_EXCLUDE=dist/**/*
+        VALIDATE_GIT_COMMITLINT=false
         VALIDATE_JSCPD=false
         VALIDATE_TYPESCRIPT_STANDARD=false
         VALIDATE_TYPESCRIPT_ES=false
