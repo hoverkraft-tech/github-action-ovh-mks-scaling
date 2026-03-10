@@ -68,10 +68,29 @@ This action supports both Application Key/Application Secret and OAuth2 authenti
     # This input is required.
     nodepool-id: ""
 
-    # The number of nodes to scale to
+    # Whether to enable autoscaling for the nodepool
+    # Default: `true`
+    autoscale: "true"
+
+    # The desired number of nodes to scale to.
+    # This value sets the `desiredNodes` property on the OVH API.
+    # It is also used as the default for `min-nodes` and `max-nodes` when they are not provided.
+    # The effective `desiredNodes` sent to the API is clamped between `min-nodes` and `max-nodes`
+    # (i.e. `max(number-of-nodes, min-nodes)` then `min(result, max-nodes)`).
+    #
     # This input is required.
     # Default: `1`
     number-of-nodes: "1"
+
+    # The minimum number of nodes for autoscaling (sets `minNodes` on the OVH API).
+    # Defaults to `number-of-nodes` if not provided.
+    # When autoscaling is enabled, the cluster will never scale below this value.
+    min-nodes: ""
+
+    # The maximum number of nodes for autoscaling (sets `maxNodes` on the OVH API).
+    # Defaults to `number-of-nodes` if not provided.
+    # When autoscaling is enabled, the cluster will never scale above this value.
+    max-nodes: ""
 ```
 
 <!-- usage:end -->
@@ -109,7 +128,18 @@ bash scripts/create-ovh-creds.sh
 | **`project-id`**         | The project ID of the OVH MKS project                                                             | **true**     | -           |
 | **`cluster-id`**         | The ID of the OVH MKS cluster                                                                     | **true**     | -           |
 | **`nodepool-id`**        | The ID of the OVH MKS nodepool                                                                    | **true**     | -           |
-| **`number-of-nodes`**    | The number of nodes to scale to                                                                   | **true**     | `1`         |
+| **`autoscale`**          | Whether to enable autoscaling for the nodepool                                                    | **false**    | `true`      |
+| **`number-of-nodes`**    | The desired number of nodes to scale to.                                                          | **true**     | `1`         |
+|                          | This value sets the `desiredNodes` property on the OVH API.                                       |              |             |
+|                          | It is also used as the default for `min-nodes` and `max-nodes` when they are not provided.        |              |             |
+|                          | The effective `desiredNodes` sent to the API is clamped between `min-nodes` and `max-nodes`       |              |             |
+|                          | (i.e. `max(number-of-nodes, min-nodes)` then `min(result, max-nodes)`).                           |              |             |
+| **`min-nodes`**          | The minimum number of nodes for autoscaling (sets `minNodes` on the OVH API).                     | **false**    | -           |
+|                          | Defaults to `number-of-nodes` if not provided.                                                    |              |             |
+|                          | When autoscaling is enabled, the cluster will never scale below this value.                       |              |             |
+| **`max-nodes`**          | The maximum number of nodes for autoscaling (sets `maxNodes` on the OVH API).                     | **false**    | -           |
+|                          | Defaults to `number-of-nodes` if not provided.                                                    |              |             |
+|                          | When autoscaling is enabled, the cluster will never scale above this value.                       |              |             |
 
 <!-- inputs:end -->
 <!-- secrets:start -->
