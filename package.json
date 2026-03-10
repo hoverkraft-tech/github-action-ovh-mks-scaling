@@ -60,7 +60,14 @@
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
-    ]
+    ],
+    "rules": {
+      "body-max-line-length": [
+        2,
+        "always",
+        20480
+      ]
+    }
   },
   "lint-staged": {
     "*.{js,ts,tsx}": [
