@@ -1,9 +1,10 @@
 import * as core from "@actions/core";
-import { InputService } from "./services/input.service";
-import { LoggerService } from "./services/logger.service";
-import * as indexRunner from "./index-runner";
+import { InputService } from "./services/input.service.js";
+import { LoggerService } from "./services/logger.service.js";
+import * as indexRunner from "./index-runner.js";
 
-import { NodepoolUpdateResponse, OvhService } from "./services/ovh.service";
+import type { NodepoolUpdateResponse } from "./services/ovh.service.js";
+import { OvhService } from "./services/ovh.service.js";
 
 describe("run", () => {
   // Mock the external libraries and services used by the action

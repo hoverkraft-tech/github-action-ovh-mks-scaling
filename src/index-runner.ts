@@ -1,7 +1,7 @@
 import { setFailed, setOutput } from "@actions/core";
-import { InputService } from "./services/input.service";
-import { LoggerService } from "./services/logger.service";
-import { OvhService } from "./services/ovh.service";
+import { InputService } from "./services/input.service.js";
+import { LoggerService } from "./services/logger.service.js";
+import { OvhService } from "./services/ovh.service.js";
 
 /**
  * The run function for the action.

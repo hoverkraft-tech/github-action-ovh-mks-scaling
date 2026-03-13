@@ -1,5 +1,6 @@
-import { Inputs } from "./input.service";
-import { LoggerService } from "./logger.service";
+import ovh from "@ovhcloud/node-ovh";
+import type { Inputs } from "./input.service.js";
+import { LoggerService } from "./logger.service.js";
 
 type Client = {
   requestPromised: (method: string, url: string, data?: unknown) => Promise<NodepoolUpdateResponse>;
@@ -89,8 +90,7 @@ export class OvhService {
       ...authParameters,
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    this.client = require("@ovhcloud/node-ovh")(parameters);
+    this.client = ovh(parameters) as Client;
   }
 
   private authenticateClientWithAppCredentials(

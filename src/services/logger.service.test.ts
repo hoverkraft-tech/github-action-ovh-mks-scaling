@@ -1,4 +1,4 @@
-import { LoggerService } from "./logger.service";
+import { LoggerService } from "./logger.service.js";
 import { debug, info } from "@actions/core";
 
 jest.mock("@actions/core", () => ({

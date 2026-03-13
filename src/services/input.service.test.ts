@@ -1,5 +1,5 @@
 import * as core from "@actions/core";
-import { InputService, InputNames } from "./input.service";
+import { InputService, InputNames } from "./input.service.js";
 
 describe("InputService", () => {
   let service: InputService;

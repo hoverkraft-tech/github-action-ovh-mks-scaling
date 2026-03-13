@@ -1,13 +1,16 @@
-import { LoggerService } from "./logger.service";
-import { OvhService, NodepoolUpdateResponse } from "./ovh.service";
+import ovh from "@ovhcloud/node-ovh";
+import { LoggerService } from "./logger.service.js";
+import type { NodepoolUpdateResponse } from "./ovh.service.js";
+import { OvhService } from "./ovh.service.js";
 
-// Mock the @ovhcloud/node-ovh module
 const mockRequestPromised = jest.fn();
-const mockOvhClient = jest.fn().mockReturnValue({
-  requestPromised: mockRequestPromised,
-});
 
-jest.mock("@ovhcloud/node-ovh", () => mockOvhClient);
+jest.mock("@ovhcloud/node-ovh", () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
+
+const mockOvhClient = ovh as jest.MockedFunction<typeof ovh>;
 
 describe("OvhService", () => {
   let loggerService: LoggerService;
@@ -15,6 +18,9 @@ describe("OvhService", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    mockOvhClient.mockReturnValue({
+      requestPromised: mockRequestPromised,
+    });
     loggerService = new LoggerService();
     loggerDebugSpy = jest.spyOn(loggerService, "debug").mockImplementation();
   });

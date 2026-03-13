@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "author": "hoverkraft",
   "license": "MIT",
+  "type": "module",
   "homepage": "https://github.com/hoverkraft-tech/github-action-ovh-mks-scaling",
   "private": true,
   "repository": {
@@ -26,8 +27,8 @@
     "node": ">=20"
   },
   "dependencies": {
-    "@actions/core": "^1.11.1",
-    "@actions/github": "^6.0.1",
+    "@actions/core": "^3.0.0",
+    "@actions/github": "^9.0.0",
     "@ovhcloud/node-ovh": "^3.0.0"
   },
   "devDependencies": {
@@ -81,8 +82,27 @@
       "**/?(*.)+(spec|test)?(.*).+(ts|tsx|js)"
     ],
     "collectCoverageFrom": [
-      "**/src/**/*.[jt]s?(x)"
-    ]
+      "**/src/**/*.[jt]s?(x)",
+      "!**/*.d.ts"
+    ],
+    "moduleNameMapper": {
+      "^@actions/core$": "<rootDir>/test/actions-core.mock.ts",
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    },
+    "transform": {
+      "^.+\\.tsx?$": [
+        "ts-jest",
+        {
+          "tsconfig": {
+            "target": "ES2022",
+            "module": "CommonJS",
+            "moduleResolution": "Node10",
+            "esModuleInterop": true,
+            "isolatedModules": true
+          }
+        }
+      ]
+    }
   },
   "tsDevTools": {
     "version": "20250623095600-remove-prettier-oxc"
