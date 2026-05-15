@@ -3,6 +3,9 @@
 help: ## Display help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
+setup: ## Install dependencies
+	@npm install
+
 lint: ## Execute linting
 	$(call run_linter,)
 
@@ -17,7 +20,7 @@ lint-fix: ## Execute linting and fix
 	)
 
 ci: ## Execute all formats and checks
-	@npm install
+	$(MAKE) setup
 	@npm audit fix || true
 	@npm run all
 	$(MAKE) lint-fix
