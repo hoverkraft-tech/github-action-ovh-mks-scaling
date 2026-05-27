@@ -2668,7 +2668,8 @@ const Tap = __nccwpck_require__(2948);
 const internals = {
     jsonRegex: /^application\/([a-z0-9.]*[+-]json|json)$/,
     shallowOptions: ['agent', 'agents', 'beforeRedirect', 'payload', 'redirected'],
-    httpOptions: ['secureProtocol', 'ciphers', 'lookup', 'family', 'hints']
+    httpOptions: ['secureProtocol', 'ciphers', 'lookup', 'family', 'hints'],
+    sensitiveCrossHostHeaders: new Set(['authorization', 'cookie', 'proxy-authorization'])
 };
 
 
@@ -2885,7 +2886,7 @@ internals.Client = class {
             }
 
             if (!/^https?:/i.test(location)) {
-                location = Url.resolve(uri.href, location);
+                location = new Url.URL(location, uri.href).href;
             }
 
             const redirectOptions = Hoek.clone(options, { shallow: internals.shallowOptions });
@@ -2897,13 +2898,12 @@ internals.Client = class {
                 redirectOptions.timeout = (redirectOptions.timeout - elapsed).toString();           // stringify to not drop timeout when === 0
             }
 
-            // When redirecting to a new hostname, remove the authorization and cookie headers
+            // When redirecting cross-origin (scheme, host, or port differs), remove sensitive credential headers
             if (redirectOptions.headers) {
                 const parsedLocation = new URL(location);
-                if (uri.hostname !== parsedLocation.hostname) {
+                if (uri.origin !== parsedLocation.origin) {
                     for (const header of Object.keys(redirectOptions.headers)) {
-                        const lowerHeader = header.toLowerCase();
-                        if (lowerHeader === 'authorization' || lowerHeader === 'cookie') {
+                        if (internals.sensitiveCrossHostHeaders.has(header.toLowerCase())) {
                             delete redirectOptions.headers[header];
                         }
                     }
