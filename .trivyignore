@@ -1,0 +1,7 @@
+# DS-0026: Add HEALTHCHECK instruction in your Dockerfile
+# Not relevant for the super-linter Dockerfile, which is a CI build tool container, not a long-running service
+DS-0026
+
+# CVE-2026-22036: undici DoS via excessive decompression steps (MEDIUM)
+# Transitive dependency - cannot be directly upgraded. See FIXME.md for details.
+CVE-2026-22036
