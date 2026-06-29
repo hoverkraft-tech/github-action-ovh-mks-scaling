@@ -32,10 +32,10 @@
     "@ovhcloud/node-ovh": "^3.0.0"
   },
   "devDependencies": {
-    "@ts-dev-tools/core": "^1.12.1",
-    "@vercel/ncc": "^0.38.4",
+    "@ts-dev-tools/core": "^1.12.4",
+    "@vercel/ncc": "^0.44.0",
     "eslint-plugin-github": "^6.0.0",
-    "eslint-plugin-jsonc": "^3.1.2"
+    "eslint-plugin-jsonc": "^3.2.0"
   },
   "scripts": {
     "package": "npm run package:index",
