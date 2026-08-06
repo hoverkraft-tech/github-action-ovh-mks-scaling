@@ -1,9 +1,13 @@
 import ovh from "@ovhcloud/node-ovh";
 import type { Inputs } from "./input.service.js";
-import { LoggerService } from "./logger.service.js";
+import type { LoggerService } from "./logger.service.js";
 
 type Client = {
-  requestPromised: (method: string, url: string, data?: unknown) => Promise<NodepoolUpdateResponse>;
+  requestPromised: (
+    method: string,
+    url: string,
+    data?: unknown,
+  ) => Promise<NodepoolUpdateResponse>;
 };
 
 // https://eu.api.ovh.com/console/?section=%2Fcloud&branch=v1#put-/cloud/project/-serviceName-/kube/-kubeId-/nodepool/-nodePoolId-
@@ -61,31 +65,42 @@ export class OvhService {
     appSecret: Inputs["appSecret"],
     consumerKey: Inputs["consumerKey"],
     clientId: Inputs["clientId"],
-    clientSecret: Inputs["clientSecret"]
+    clientSecret: Inputs["clientSecret"],
   ) {
-    let authParameters: AppAuthenticationParameters | OAuth2AuthenticationParameters;
+    let authParameters:
+      | AppAuthenticationParameters
+      | OAuth2AuthenticationParameters;
     switch (true) {
       case Boolean(appKey || appSecret || consumerKey):
-        authParameters = this.authenticateClientWithAppCredentials(appKey, appSecret, consumerKey);
+        authParameters = this.authenticateClientWithAppCredentials(
+          appKey,
+          appSecret,
+          consumerKey,
+        );
         this.loggerService.debug(
-          `Using App credentials for authentication: appKey=${appKey}, consumerKey=${consumerKey}`
+          `Using App credentials for authentication: appKey=${appKey}, consumerKey=${consumerKey}`,
         );
         break;
       case Boolean(clientId || clientSecret):
-        authParameters = this.authenticateClientWithOAuth2(clientId, clientSecret);
+        authParameters = this.authenticateClientWithOAuth2(
+          clientId,
+          clientSecret,
+        );
         this.loggerService.debug(
-          `Using OAuth2 credentials for authentication: clientId=${clientId}`
+          `Using OAuth2 credentials for authentication: clientId=${clientId}`,
         );
         break;
       default:
         throw new Error(
-          "No valid authentication method provided. Please provide either App credentials or OAuth2 credentials."
+          "No valid authentication method provided. Please provide either App credentials or OAuth2 credentials.",
         );
     }
 
     const parameters: ClientParameters = {
       debug: (message: string, ...context: unknown[]) =>
-        this.loggerService.debug(`${message}\n${JSON.stringify(context, null, 2)}`),
+        this.loggerService.debug(
+          `${message}\n${JSON.stringify(context, null, 2)}`,
+        ),
       endpoint: endpoint || undefined,
       ...authParameters,
     };
@@ -96,7 +111,7 @@ export class OvhService {
   private authenticateClientWithAppCredentials(
     appKey: Inputs["appKey"],
     appSecret: Inputs["appSecret"],
-    consumerKey: Inputs["consumerKey"]
+    consumerKey: Inputs["consumerKey"],
   ): AppAuthenticationParameters {
     if (!appKey) {
       throw new Error("OVH appKey is required for authentication.");
@@ -120,7 +135,7 @@ export class OvhService {
 
   private authenticateClientWithOAuth2(
     clientId: Inputs["clientId"],
-    clientSecret: Inputs["clientSecret"]
+    clientSecret: Inputs["clientSecret"],
   ): OAuth2AuthenticationParameters {
     if (!clientId) {
       throw new Error("OVH clientId is required for authentication.");
@@ -166,7 +181,7 @@ export class OvhService {
     const effectiveMaxNodes = maxNodes ?? numberOfNodes;
     const effectiveDesiredNodes = Math.min(
       Math.max(numberOfNodes, effectiveMinNodes),
-      effectiveMaxNodes
+      effectiveMaxNodes,
     );
 
     return this.client.requestPromised(
@@ -178,7 +193,7 @@ export class OvhService {
         minNodes: effectiveMinNodes,
         maxNodes: effectiveMaxNodes,
         desiredNodes: effectiveDesiredNodes,
-      }
+      },
     );
   }
 }

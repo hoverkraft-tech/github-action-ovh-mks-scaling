@@ -1,11 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "target": "ES2022",
+    "target": "ES2024",
     "module": "NodeNext",
     "rootDir": "./src",
     "moduleResolution": "NodeNext",
-    "baseUrl": "./",
     "sourceMap": true,
     "outDir": "./dist",
     "noImplicitAny": true,
@@ -14,8 +13,7 @@
     "strict": true,
     "skipLibCheck": true,
     "newLine": "lf",
-    "noEmit": true,
-    "isolatedModules": true
+    "noEmit": true
   },
   "exclude": ["./dist", "./node_modules", "./src/**/*.test.ts", "./coverage"],
   "include": ["./src/**/*"]

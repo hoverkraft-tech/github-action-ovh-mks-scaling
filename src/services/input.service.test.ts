@@ -1,18 +1,29 @@
 import * as core from "@actions/core";
-import { InputService, InputNames } from "./input.service.js";
+import { type MockInstance, vi } from "vitest";
+import { InputNames, InputService } from "./input.service.js";
+
+vi.mock("@actions/core", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@actions/core")>();
+
+  return {
+    ...actual,
+    getInput: vi.fn(),
+  };
+});
 
 describe("InputService", () => {
   let service: InputService;
-  let getInputMock: jest.SpiedFunction<typeof core.getInput>;
+  let getInputMock: MockInstance<typeof core.getInput>;
 
   beforeEach(() => {
-    jest.clearAllMocks();
-    getInputMock = jest.spyOn(core, "getInput").mockImplementation();
+    vi.clearAllMocks();
+    getInputMock = vi.mocked(core.getInput);
+    getInputMock.mockImplementation(() => "");
     service = new InputService();
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe("getInputs", () => {
@@ -336,7 +347,9 @@ describe("InputService", () => {
           }
         });
 
-        expect(() => service.getInputs()).toThrow("Input required and not supplied: project-id");
+        expect(() => service.getInputs()).toThrow(
+          "Input required and not supplied: project-id",
+        );
       });
     });
 
@@ -374,7 +387,9 @@ describe("InputService", () => {
           }
         });
 
-        expect(() => service.getInputs()).toThrow("Input required and not supplied: cluster-id");
+        expect(() => service.getInputs()).toThrow(
+          "Input required and not supplied: cluster-id",
+        );
       });
     });
 
@@ -414,7 +429,9 @@ describe("InputService", () => {
           }
         });
 
-        expect(() => service.getInputs()).toThrow("Input required and not supplied: nodepool-id");
+        expect(() => service.getInputs()).toThrow(
+          "Input required and not supplied: nodepool-id",
+        );
       });
     });
 
@@ -450,14 +467,16 @@ describe("InputService", () => {
             case InputNames.NodepoolId:
               return "nodepool-456";
             case InputNames.NumberOfNodes:
-              throw new Error("Input required and not supplied: number-of-nodes");
+              throw new Error(
+                "Input required and not supplied: number-of-nodes",
+              );
             default:
               return "";
           }
         });
 
         expect(() => service.getInputs()).toThrow(
-          "Input required and not supplied: number-of-nodes"
+          "Input required and not supplied: number-of-nodes",
         );
       });
 

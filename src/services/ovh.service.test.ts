@@ -1,32 +1,35 @@
 import ovh from "@ovhcloud/node-ovh";
+import { type MockInstance, vi } from "vitest";
 import { LoggerService } from "./logger.service.js";
 import type { NodepoolUpdateResponse } from "./ovh.service.js";
 import { OvhService } from "./ovh.service.js";
 
-const mockRequestPromised = jest.fn();
+const mockRequestPromised = vi.fn();
 
-jest.mock("@ovhcloud/node-ovh", () => ({
+vi.mock("@ovhcloud/node-ovh", () => ({
   __esModule: true,
-  default: jest.fn(),
+  default: vi.fn(),
 }));
 
-const mockOvhClient = ovh as jest.MockedFunction<typeof ovh>;
+const mockOvhClient = vi.mocked(ovh);
 
 describe("OvhService", () => {
   let loggerService: LoggerService;
-  let loggerDebugSpy: jest.SpyInstance;
+  let loggerDebugSpy: MockInstance<typeof loggerService.debug>;
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     mockOvhClient.mockReturnValue({
       requestPromised: mockRequestPromised,
     });
     loggerService = new LoggerService();
-    loggerDebugSpy = jest.spyOn(loggerService, "debug").mockImplementation();
+    loggerDebugSpy = vi
+      .spyOn(loggerService, "debug")
+      .mockImplementation(() => undefined);
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe("constructor", () => {
@@ -39,7 +42,7 @@ describe("OvhService", () => {
           "<TEST_APP_SECRET>",
           "<TEST_CONSUMER_KEY>",
           null,
-          null
+          null,
         );
 
         expect(mockOvhClient).toHaveBeenCalledWith({
@@ -51,7 +54,7 @@ describe("OvhService", () => {
         });
 
         expect(loggerDebugSpy).toHaveBeenCalledWith(
-          "Using App credentials for authentication: appKey=<TEST_APP_KEY>, consumerKey=<TEST_CONSUMER_KEY>"
+          "Using App credentials for authentication: appKey=<TEST_APP_KEY>, consumerKey=<TEST_CONSUMER_KEY>",
         );
       });
 
@@ -63,7 +66,7 @@ describe("OvhService", () => {
           "<TEST_APP_SECRET>",
           null,
           null,
-          null
+          null,
         );
 
         expect(mockOvhClient).toHaveBeenCalledWith({
@@ -82,7 +85,7 @@ describe("OvhService", () => {
           "<TEST_APP_SECRET>",
           null,
           null,
-          null
+          null,
         );
 
         expect(mockOvhClient).toHaveBeenCalledWith({
@@ -95,13 +98,29 @@ describe("OvhService", () => {
 
       it("should throw error when appKey is missing", () => {
         expect(() => {
-          new OvhService(loggerService, "ovh-eu", null, "<TEST_APP_SECRET>", null, null, null);
+          new OvhService(
+            loggerService,
+            "ovh-eu",
+            null,
+            "<TEST_APP_SECRET>",
+            null,
+            null,
+            null,
+          );
         }).toThrow("OVH appKey is required for authentication.");
       });
 
       it("should throw error when appSecret is missing", () => {
         expect(() => {
-          new OvhService(loggerService, "ovh-eu", "<TEST-APP_KEY>", null, null, null, null);
+          new OvhService(
+            loggerService,
+            "ovh-eu",
+            "<TEST-APP_KEY>",
+            null,
+            null,
+            null,
+            null,
+          );
         }).toThrow("OVH appSecret is required for authentication.");
       });
     });
@@ -115,7 +134,7 @@ describe("OvhService", () => {
           null,
           null,
           "test-client-id",
-          "test-client-secret"
+          "test-client-secret",
         );
 
         expect(mockOvhClient).toHaveBeenCalledWith({
@@ -126,19 +145,35 @@ describe("OvhService", () => {
         });
 
         expect(loggerDebugSpy).toHaveBeenCalledWith(
-          "Using OAuth2 credentials for authentication: clientId=test-client-id"
+          "Using OAuth2 credentials for authentication: clientId=test-client-id",
         );
       });
 
       it("should throw error when clientId is missing", () => {
         expect(() => {
-          new OvhService(loggerService, "ovh-eu", null, null, null, null, "test-client-secret");
+          new OvhService(
+            loggerService,
+            "ovh-eu",
+            null,
+            null,
+            null,
+            null,
+            "test-client-secret",
+          );
         }).toThrow("OVH clientId is required for authentication.");
       });
 
       it("should throw error when clientSecret is missing", () => {
         expect(() => {
-          new OvhService(loggerService, "ovh-eu", null, null, null, "test-client-id", null);
+          new OvhService(
+            loggerService,
+            "ovh-eu",
+            null,
+            null,
+            null,
+            "test-client-id",
+            null,
+          );
         }).toThrow("OVH clientSecret is required for authentication.");
       });
     });
@@ -148,7 +183,7 @@ describe("OvhService", () => {
         expect(() => {
           new OvhService(loggerService, "ovh-eu", null, null, null, null, null);
         }).toThrow(
-          "No valid authentication method provided. Please provide either App credentials or OAuth2 credentials."
+          "No valid authentication method provided. Please provide either App credentials or OAuth2 credentials.",
         );
       });
     });
@@ -162,7 +197,7 @@ describe("OvhService", () => {
           "<TEST_APP_SECRET>",
           null,
           null,
-          null
+          null,
         );
 
         const debugFunction = mockOvhClient.mock.calls[0][0].debug;
@@ -172,7 +207,7 @@ describe("OvhService", () => {
         debugFunction(testMessage, testContext);
 
         expect(loggerDebugSpy).toHaveBeenCalledWith(
-          `${testMessage}\n${JSON.stringify([testContext], null, 2)}`
+          `${testMessage}\n${JSON.stringify([testContext], null, 2)}`,
         );
       });
     });
@@ -189,7 +224,7 @@ describe("OvhService", () => {
         "<TEST_APP_SECRET>",
         null,
         null,
-        null
+        null,
       );
     });
 
@@ -232,7 +267,7 @@ describe("OvhService", () => {
           minNodes: 5,
           maxNodes: 5,
           desiredNodes: 5,
-        }
+        },
       );
 
       expect(result).toEqual(mockResponse);
@@ -251,7 +286,7 @@ describe("OvhService", () => {
           autoscale: true,
           minNodes: null,
           maxNodes: null,
-        })
+        }),
       ).rejects.toThrow("API Error");
 
       expect(mockRequestPromised).toHaveBeenCalledWith(
@@ -263,7 +298,7 @@ describe("OvhService", () => {
           minNodes: 3,
           maxNodes: 3,
           desiredNodes: 3,
-        }
+        },
       );
     });
 
@@ -301,7 +336,7 @@ describe("OvhService", () => {
           minNodes: 10,
           maxNodes: 10,
           desiredNodes: 10,
-        }
+        },
       );
     });
 
@@ -339,7 +374,7 @@ describe("OvhService", () => {
           minNodes: 2,
           maxNodes: 10,
           desiredNodes: 5,
-        }
+        },
       );
     });
 
@@ -365,7 +400,7 @@ describe("OvhService", () => {
           minNodes: 3,
           maxNodes: 10,
           desiredNodes: 3,
-        }
+        },
       );
     });
 
@@ -391,7 +426,7 @@ describe("OvhService", () => {
           minNodes: 3,
           maxNodes: 10,
           desiredNodes: 10,
-        }
+        },
       );
     });
 
@@ -429,7 +464,7 @@ describe("OvhService", () => {
           minNodes: 3,
           maxNodes: 3,
           desiredNodes: 3,
-        }
+        },
       );
     });
   });

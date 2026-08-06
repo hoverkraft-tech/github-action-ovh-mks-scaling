@@ -21,11 +21,11 @@ export async function run(): Promise<void> {
       inputs.appSecret,
       inputs.consumerKey,
       inputs.clientId,
-      inputs.clientSecret
+      inputs.clientSecret,
     );
 
     loggerService.info(
-      `Scaling nodepool to ${inputs.numberOfNodes} nodes for project ${inputs.projectId} in cluster ${inputs.clusterId} and nodepool ${inputs.nodepoolId}`
+      `Scaling nodepool to ${inputs.numberOfNodes} nodes for project ${inputs.projectId} in cluster ${inputs.clusterId} and nodepool ${inputs.nodepoolId}`,
     );
     const result = await ovhService.scaleNodepool({
       projectId: inputs.projectId,

@@ -21,7 +21,9 @@ jobs:
 
       - name: Build dist/ Directory
         id: package
-        run: ${{ steps.setup-node.outputs.run-script-command }} package
+        env:
+          RUN_SCRIPT_COMMAND: ${{ steps.setup-node.outputs.run-script-command }}
+        run: $RUN_SCRIPT_COMMAND package
 
       # This will fail the workflow if the PR wasn't created by Dependabot.
       - name: Compare Directories

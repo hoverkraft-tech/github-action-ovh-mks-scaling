@@ -1,9 +1,10 @@
-import { LoggerService } from "./logger.service.js";
 import { debug, info } from "@actions/core";
+import { vi } from "vitest";
+import { LoggerService } from "./logger.service.js";
 
-jest.mock("@actions/core", () => ({
-  info: jest.fn(),
-  debug: jest.fn(),
+vi.mock("@actions/core", () => ({
+  info: vi.fn(),
+  debug: vi.fn(),
 }));
 
 describe("LoggerService", () => {
@@ -14,7 +15,7 @@ describe("LoggerService", () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe("info", () => {
