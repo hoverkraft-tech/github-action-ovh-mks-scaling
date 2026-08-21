@@ -36,7 +36,7 @@ This action supports both Application Key/Application Secret and OAuth2 authenti
 ## Usage
 
 ```yaml
-- uses: hoverkraft-tech/github-action-ovh-mks-scaling@d9f205d85554633240217794cd535ecd0f84854c # 0.3.0
+- uses: hoverkraft-tech/github-action-ovh-mks-scaling@e68fa92b7eb3304dab72d98e57da5ef9e29b9017 # 1.0.0
   with:
     # The OVH endpoint to use.
     # See the [available endpoints](https://github.com/ovh/node-ovh/blob/master/lib/endpoints.js) list.
