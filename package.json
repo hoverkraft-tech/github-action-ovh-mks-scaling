@@ -32,7 +32,7 @@
     "@ovhcloud/node-ovh": "^3.0.0"
   },
   "devDependencies": {
-    "@ts-dev-tools/core": "^1.13.1",
+    "@ts-dev-tools/core": "^1.13.2",
     "esbuild": "^0.28.2"
   },
   "scripts": {
