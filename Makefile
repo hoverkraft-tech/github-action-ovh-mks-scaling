@@ -22,8 +22,8 @@ lint-fix: ## Execute linting and fix
 ci: ## Execute all formats and checks
 	$(MAKE) setup
 	@npm audit fix || true
-	@npm run all
 	$(MAKE) lint-fix
+	@npm run all
 
 define run_linter
 	DEFAULT_WORKSPACE="$(CURDIR)"; \
