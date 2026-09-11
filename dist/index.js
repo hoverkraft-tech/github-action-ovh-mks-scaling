@@ -25460,7 +25460,7 @@ var require_package = __commonJS({
     module2.exports = {
       name: "joi",
       description: "Object schema validation",
-      version: "17.13.4",
+      version: "17.13.7",
       repository: "git://github.com/hapijs/joi",
       main: "lib/index.js",
       types: "lib/index.d.ts",
@@ -27100,15 +27100,16 @@ var require_messages = __commonJS({
         }
         Assert(typeof message === "object" && !Array.isArray(message), "Invalid message for", code);
         const language = code;
-        target[language] = target[language] || {};
+        const localizedTarget = Object.prototype.hasOwnProperty.call(target, language) ? target[language] : {};
+        target[language] = localizedTarget;
         for (code in message) {
           const localized = message[code];
           if (code === "root" || Template.isTemplate(localized)) {
-            target[language][code] = localized;
+            localizedTarget[code] = localized;
             continue;
           }
           Assert(typeof localized === "string", "Invalid message for", code, "in", language);
-          target[language][code] = new Template(localized);
+          localizedTarget[code] = new Template(localized);
         }
       }
       return target;
@@ -27164,15 +27165,16 @@ var require_messages = __commonJS({
         }
         Assert(typeof message === "object" && !Array.isArray(message), "Invalid message for", code);
         const language = code;
-        target[language] = target[language] || {};
+        const localizedTarget = Object.prototype.hasOwnProperty.call(target, language) ? target[language] : {};
+        target[language] = localizedTarget;
         for (code in message) {
           const localized = message[code];
           if (code === "root" || Template.isTemplate(localized)) {
-            target[language][code] = localized;
+            localizedTarget[code] = localized;
             continue;
           }
           Assert(typeof localized === "string", "Invalid message for", code, "in", language);
-          target[language][code] = new Template(localized);
+          localizedTarget[code] = new Template(localized);
         }
       }
       return target;
@@ -32297,6 +32299,7 @@ var require_keys = __commonJS({
         "object.regex": "{{#label}} must be a RegExp object",
         "object.rename.multiple": "{{#label}} cannot rename {{:#from}} because multiple renames are disabled and another key was already renamed to {{:#to}}",
         "object.rename.override": "{{#label}} cannot rename {{:#from}} because override is disabled and target {{:#to}} exists",
+        "object.rename.proto": "{{#label}} cannot rename {{:#from}} because target {{:#to}} is a reserved key",
         "object.schema": "{{#label}} must be a Joi schema of {{#type}} type",
         "object.unknown": "{{#label}} is not allowed",
         "object.with": "{{:#mainWithLabel}} missing required peer {{:#peerWithLabel}}",
@@ -32309,8 +32312,12 @@ var require_keys = __commonJS({
         if (prefs.nonEnumerables) {
           return Clone(value, { shallow: true });
         }
-        const clone2 = Object.create(Object.getPrototypeOf(value));
+        const proto = Object.getPrototypeOf(value);
+        const clone2 = Object.create(proto);
         Object.assign(clone2, value);
+        if (Object.getPrototypeOf(clone2) !== proto) {
+          Object.setPrototypeOf(clone2, proto);
+        }
         return clone2;
       }
       const clone = function(...args) {
@@ -32527,6 +32534,13 @@ var require_keys = __commonJS({
             if (prefs.abortEarly) {
               return false;
             }
+          }
+          if (to === "__proto__") {
+            errors.push(schema.$_createError("object.rename.proto", value, { from, to, pattern }, state, prefs));
+            if (prefs.abortEarly) {
+              return false;
+            }
+            continue;
           }
           if (value[from] === void 0) {
             delete value[to];
@@ -35660,8 +35674,8 @@ var require_string = __commonJS({
       if (!Common.isIsoDate(value)) {
         return null;
       }
-      if (/.*T.*[+-]\d\d$/.test(value)) {
-        value += "00";
+      if (/T.*[+-]\d\d$/.test(value)) {
+        value += ":00";
       }
       const date = new Date(value);
       if (isNaN(date.getTime())) {
