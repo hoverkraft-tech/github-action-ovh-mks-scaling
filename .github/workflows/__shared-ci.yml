@@ -7,7 +7,7 @@ permissions: {}
 
 jobs:
   linter:
-    uses: hoverkraft-tech/ci-github-common/.github/workflows/linter.yml@3a27d31e9ccefbe9609cc9165017ed100ff34a22 # 0.38.0
+    uses: hoverkraft-tech/ci-github-common/.github/workflows/linter.yml@44f6108cef0e9884ea7735f3d62932c2310745d4 # 0.39.1
     permissions:
       actions: read
       contents: read
@@ -20,7 +20,7 @@ jobs:
   check-nodejs:
     name: Test nodejs
     needs: linter
-    uses: ./.github/workflows/__check-nodejs.yml
+    uses: $/.github/workflows/__check-nodejs.yml
     permissions:
       contents: read
       id-token: write
@@ -31,6 +31,6 @@ jobs:
   check-dist:
     name: Test nodejs
     needs: linter
-    uses: ./.github/workflows/__check-dist.yml
+    uses: $/.github/workflows/__check-dist.yml
     permissions:
       contents: read

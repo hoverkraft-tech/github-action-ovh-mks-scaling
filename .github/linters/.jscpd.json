@@ -1,3 +1,4 @@
 {
+  "noGitignore": false,
   "ignore": ["**/dist/**", "**/node_modules/**", "**/coverage/**"]
 }
