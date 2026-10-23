@@ -29,6 +29,8 @@ Scale up or down your OVH MKS nodepool.
 Rely on the OVH API through the [OVH Node.js SDK](https://github.com/ovh/node-ovh) to manage your Kubernetes clusters.
 It allows you to scale the number of nodes in a specific nodepool of an OVH Managed Kubernetes Service (MKS) cluster.
 This action supports both Application Key/Application Secret and OAuth2 authentication methods.
+Requires a GitHub Actions runner with Node.js 24 support (version 2.327.1 or newer).
+See the [documentation index](docs/README.md) for development and release guides.
 
 <!-- overview:end -->
 <!-- usage:start -->

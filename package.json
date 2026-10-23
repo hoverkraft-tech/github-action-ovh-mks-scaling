@@ -55,7 +55,14 @@
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
-    ]
+    ],
+    "rules": {
+      "body-max-line-length": [
+        2,
+        "always",
+        200
+      ]
+    }
   },
   "tsDevTools": {
     "version": "20260604100000-migrate-to-vitest"
