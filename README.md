@@ -38,7 +38,7 @@ See the [documentation index](docs/README.md) for development and release guides
 ## Usage
 
 ```yaml
-- uses: hoverkraft-tech/github-action-ovh-mks-scaling@e68fa92b7eb3304dab72d98e57da5ef9e29b9017 # 1.0.0
+- uses: hoverkraft-tech/github-action-ovh-mks-scaling@dc2ea8e0bdae1854c4d2b22b478f56e299614983 # 2.0.0
   with:
     # The OVH endpoint to use.
     # See the [available endpoints](https://github.com/ovh/node-ovh/blob/master/lib/endpoints.js) list.
