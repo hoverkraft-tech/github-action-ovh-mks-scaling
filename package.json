@@ -57,10 +57,30 @@
       "@commitlint/config-conventional"
     ],
     "rules": {
-      "body-max-line-length": [
-        2,
+      "subject-case": [
+        1,
+        "never",
+        [
+          "sentence-case",
+          "start-case",
+          "pascal-case",
+          "upper-case"
+        ]
+      ],
+      "header-max-length": [
+        1,
         "always",
-        200
+        100
+      ],
+      "body-max-line-length": [
+        1,
+        "always",
+        100
+      ],
+      "footer-max-line-length": [
+        1,
+        "always",
+        100
       ]
     }
   },
