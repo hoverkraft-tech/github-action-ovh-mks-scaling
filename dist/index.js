@@ -25776,7 +25776,7 @@ var require_package = __commonJS({
     module2.exports = {
       name: "joi",
       description: "Object schema validation",
-      version: "17.13.8",
+      version: "17.13.9",
       repository: "git://github.com/hapijs/joi",
       main: "lib/index.js",
       types: "lib/index.d.ts",
@@ -27418,6 +27418,7 @@ var require_messages = __commonJS({
         }
         Assert(typeof message === "object" && !Array.isArray(message), "Invalid message for", code);
         const language = code;
+        Assert(language !== "__proto__", "Cannot use __proto__ as a language");
         const localizedTarget = Object.prototype.hasOwnProperty.call(target, language) ? target[language] : {};
         target[language] = localizedTarget;
         for (code in message) {
@@ -27486,6 +27487,7 @@ var require_messages = __commonJS({
         }
         Assert(typeof message === "object" && !Array.isArray(message), "Invalid message for", code);
         const language = code;
+        Assert(language !== "__proto__", "Cannot use __proto__ as a language");
         const localizedTarget = Object.prototype.hasOwnProperty.call(target, language) ? target[language] : {};
         target[language] = localizedTarget;
         for (code in message) {
@@ -32813,7 +32815,7 @@ var require_keys = __commonJS({
       return typeof options.isPresent === "function" ? options.isPresent : (resolved) => resolved !== void 0;
     };
     internals.rename = function(schema, value, state, prefs, errors) {
-      const renamed = {};
+      const renamed = /* @__PURE__ */ Object.create(null);
       for (const rename2 of schema.$_terms.renames) {
         const matches = [];
         const pattern = typeof rename2.from !== "string";
@@ -35616,7 +35618,7 @@ var require_string = __commonJS({
             Common.assertOptions(options, ["allowFullyQualified", "allowUnicode", "ignoreLength", "maxDomainSegments", "minDomainSegments", "multiple", "separator", "tlds"]);
             Assert(options.multiple === void 0 || typeof options.multiple === "boolean", "multiple option must be an boolean");
             const address = internals.addressOptions(options);
-            const regex = new RegExp(`\\s*[${options.separator ? EscapeRegex(options.separator) : ","}]\\s*`);
+            const regex = options.multiple ? new RegExp(`(?:(?<!\\s)\\s+)?[${options.separator ? EscapeRegex(options.separator) : ","}]\\s*`) : void 0;
             return this.$_addRule({ name: "email", args: { options }, regex, address });
           },
           validate(value, helpers, { options }, { regex, address }) {
