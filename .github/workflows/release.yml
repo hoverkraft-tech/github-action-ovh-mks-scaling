@@ -33,7 +33,7 @@ jobs:
       tag: ${{ steps.plan.outputs.tag }}
     steps:
       - id: plan
-        uses: hoverkraft-tech/ci-github-publish/actions/release/plan@ea6682de88070c254dac619a6623a242a6d57cd3 # 1.0.3
+        uses: hoverkraft-tech/ci-github-publish/actions/release/plan@f06e0e72a76bfca57c34d08d03e5c1914275fd4c # 2.0.0
         with:
           target-sha: ${{ github.sha }}
 
@@ -74,7 +74,7 @@ jobs:
           permission-pull-requests: read
 
       - name: Create release and summarize changelog
-        uses: hoverkraft-tech/ci-github-publish/actions/release/create@ea6682de88070c254dac619a6623a242a6d57cd3 # 1.0.3
+        uses: hoverkraft-tech/ci-github-publish/actions/release/create@f06e0e72a76bfca57c34d08d03e5c1914275fd4c # 2.0.0
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }} # zizmor: ignore[secrets-outside-env] provider credential is scoped to release summarization
         with:
