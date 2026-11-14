@@ -1,45 +1,58 @@
-# Publish a release from the default branch after CI succeeds, with an AI summary
-# followed by the complete changelog. See docs/development/releases.md for setup.
+# Publish this GitHub Action manually or every Monday at 08:25 UTC.
+# Run `gh workflow run release.yml --ref main`, or select Release in Actions.
+# Only the default branch can start a release. Conventional Commits determine the
+# version; `force` bypasses only the no-changes guard. Existing tags are never moved
+# by release planning. The shared CI checks the selected commit and its committed
+# JavaScript bundles before publication.
+#
+# The organization supplies CI_BOT_APP_CLIENT_ID and CI_BOT_APP_PRIVATE_KEY. The
+# App needs contents write and pull requests read permissions. Its token lets the
+# release tag trigger the existing documentation workflow.
+# OPENAI_API_KEY enables the organization's AI release summary.
+# Summary failures prevent publication.
+# Release notes live on GitHub; no CHANGELOG.md is maintained.
+#
+# If publication fails, rerun the failed job for the same planned tag and commit.
+# For a source correction, merge the fix and start a new release from main.
 name: Release
 
 on:
-  schedule:
-    - cron: "25 8 * * 1"
   workflow_dispatch:
-    # checkov:skip=CKV_GHA_7: force only bypasses change detection; the source and CI checks stay fixed.
+    # checkov:skip=CKV_GHA_7: force only bypasses change detection; the source and validation stay fixed.
     inputs:
       force:
-        description: Release even when no changes are detected.
+        description: Release even when no relevant changes are detected
         type: boolean
-        required: false
         default: false
+  schedule:
+    - cron: "25 8 * * 1"
 
 permissions: {}
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: release-${{ github.repository }}
   cancel-in-progress: false
 
 jobs:
   plan:
-    name: Plan release
     if: github.ref_type == 'branch' && github.ref_name == github.event.repository.default_branch
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: read
     outputs:
-      has-changes: ${{ steps.plan.outputs.has-changes }}
+      should-release: ${{ steps.plan.outputs.should-release }}
       tag: ${{ steps.plan.outputs.tag }}
     steps:
       - id: plan
-        uses: hoverkraft-tech/ci-github-publish/actions/release/plan@ea6682de88070c254dac619a6623a242a6d57cd3 # 1.0.3
+        uses: hoverkraft-tech/ci-github-publish/actions/release/plan@c3cd9bbbc4909bb341bd2aafe50a8673afc58fd0 # 3.0.6
         with:
-          target-sha: ${{ github.sha }}
+          target-ref: ${{ github.sha }}
+          force: ${{ github.event_name == 'workflow_dispatch' && inputs.force }}
 
-  ci:
+  validate:
     needs: plan
-    if: needs.plan.outputs.has-changes == 'true' || (github.event_name == 'workflow_dispatch' && inputs.force)
+    if: needs.plan.outputs.should-release == 'true'
     uses: $/.github/workflows/__shared-ci.yml
     permissions:
       actions: read
@@ -52,38 +65,26 @@ jobs:
       statuses: write
 
   release:
-    name: Publish release with AI changelog
-    needs: [plan, ci]
+    needs: [plan, validate]
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: read
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          ref: ${{ github.sha }}
-          persist-credentials: false
-
-      # An app token lets the new release tag trigger the documentation workflow.
       - id: generate-token
         uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
         with:
           client-id: ${{ vars.CI_BOT_APP_CLIENT_ID }}
-          private-key: ${{ secrets.CI_BOT_APP_PRIVATE_KEY }} # zizmor: ignore[secrets-outside-env] CI bot authentication is scoped to release publication
+          private-key: ${{ secrets.CI_BOT_APP_PRIVATE_KEY }} # zizmor: ignore[secrets-outside-env] release identity triggers tag documentation
           permission-contents: write
           permission-pull-requests: read
 
-      - name: Create release and summarize changelog
-        uses: hoverkraft-tech/ci-github-publish/actions/release/create@ea6682de88070c254dac619a6623a242a6d57cd3 # 1.0.3
+      - name: Publish release and AI summary
+        uses: hoverkraft-tech/ci-github-publish/actions/release/create@c3cd9bbbc4909bb341bd2aafe50a8673afc58fd0 # 3.0.6
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }} # zizmor: ignore[secrets-outside-env] provider credential is scoped to release summarization
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }} # zizmor: ignore[secrets-outside-env] summary credential stays scoped to publication
         with:
           tag: ${{ needs.plan.outputs.tag }}
-          target-sha: ${{ github.sha }}
-          publish: "true"
-          changelog-summary: |
-            {
-              "llmAuth": ${{ toJSON(env.OPENAI_API_KEY) }},
-              "llmProvider": "openai"
-            }
+          target-ref: ${{ github.sha }}
+          changelog-summary: ${{ format('{{"llmAuth":{0},"llmProvider":"openai"}}', toJSON(env.OPENAI_API_KEY)) }}
           github-token: ${{ steps.generate-token.outputs.token }}
