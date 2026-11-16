@@ -37,7 +37,7 @@ Requires a GitHub Actions runner with Node.js 24 support (version 2.327.1 or new
 ## Usage
 
 ```yaml
-- uses: hoverkraft-tech/github-action-ovh-mks-scaling@ff49982938ee0b8d4ddcb402a58a27d901f9cbde # 2.1.0
+- uses: hoverkraft-tech/github-action-ovh-mks-scaling@15572d9c9807e3883820c501a3a6df1e666af351 # 2.1.1
   with:
     # The OVH endpoint to use.
     # See the [available endpoints](https://github.com/ovh/node-ovh/blob/master/lib/endpoints.js) list.
